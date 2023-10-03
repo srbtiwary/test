@@ -1,9 +1,83 @@
 # test
 
-Movie Tickets file 
+
+
+UserInterface .java
 
 
 
+
+
+
+import java.util.Scanner;
+
+public class UserInterface {
+    
+    public static MovieTickets extractDetails(String movieDetails) {
+        // Split the movieDetails string by ":" and create a MovieTickets object
+        String[] detailsArray = movieDetails.split(":");
+        if (detailsArray.length != 6) {
+            return null; // Invalid input format
+        }
+        
+        String movieName = detailsArray[0];
+        String screenNumber = detailsArray[1];
+        int noOfTickets;
+        String mobileNumber = detailsArray[3];
+        String time = detailsArray[4];
+        String modeOfPayment = detailsArray[5];
+        
+        try {
+            noOfTickets = Integer.parseInt(detailsArray[2]);
+            if (noOfTickets <= 0 || screenNumber.isEmpty()) {
+                return null; // Invalid number of tickets or screen number
+            }
+        } catch (NumberFormatException e) {
+            return null; // Invalid number format
+        }
+        
+        return new MovieTickets(movieName, screenNumber, noOfTickets, mobileNumber, time, modeOfPayment);
+    }
+    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.println("Enter the details");
+        String movieDetails = sc.nextLine();
+        
+        MovieTickets ticket = extractDetails(movieDetails);
+        
+        if (ticket == null) {
+            System.out.println("Invalid movie details");
+        } else {
+            System.out.println("Ticket Details");
+            System.out.println("Movie Name: " + ticket.getMovieName());
+            System.out.println("Screen Number: " + ticket.getScreenNumber());
+            System.out.println("Number of tickets: " + ticket.getNoOfTickets());
+            System.out.println("Show Timing: " + ticket.getTime());
+            
+            double totalPrice = ticket.calculatePrice();
+            if (totalPrice < 0) {
+                System.out.println("Invalid movie details");
+            } else {
+                System.out.println("Ticket Cost: " + totalPrice);
+                System.out.println("Ticket ID: " + ticket.generateTicketId());
+            }
+        }
+        
+        sc.close();
+    }
+}
+
+
+
+
+
+
+
+
+
+MovieTickets.java
 
 
 
@@ -139,66 +213,3 @@ public class MovieTickets {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-User Interface
-
-import java.util.Scanner;
-
-public class UserInterface {
-    
-    public static MovieTickets extractDetails(String movieDetails) {
-        // Split the movieDetails string by ":" and create a MovieTickets object
-        String[] detailsArray = movieDetails.split(":");
-        if (detailsArray.length != 6) {
-            return null; // Invalid input format
-        }
-        
-        String movieName = detailsArray[0];
-        String screenNumber = detailsArray[1];
-        int noOfTickets = Integer.parseInt(detailsArray[2]);
-        String mobileNumber = detailsArray[3];
-        String time = detailsArray[4];
-        String modeOfPayment = detailsArray[5];
-        
-        return new MovieTickets(movieName, screenNumber, noOfTickets, mobileNumber, time, modeOfPayment);
-    }
-    
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        
-        System.out.println("Enter the details");
-        String movieDetails = sc.nextLine();
-        
-        MovieTickets ticket = extractDetails(movieDetails);
-        
-        if (ticket == null) {
-            System.out.println("Invalid movie details");
-        } else {
-            System.out.println("Ticket Details");
-            System.out.println("Movie Name: " + ticket.getMovieName());
-            System.out.println("Screen Number: " + ticket.getScreenNumber());
-            System.out.println("Number of tickets: " + ticket.getNoOfTickets());
-            System.out.println("Show Timing: " + ticket.getTime());
-            
-            double totalPrice = ticket.calculatePrice();
-            if (totalPrice < 0) {
-                System.out.println("Invalid movie details");
-            } else {
-                System.out.println("Ticket Cost: " + totalPrice);
-                System.out.println("Ticket ID: " + ticket.generateTicketId());
-            }
-        }
-        
-        sc.close();
-    }
-}
