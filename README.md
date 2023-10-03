@@ -77,6 +77,7 @@ public class UserInterface {
 
 
 
+
 MovieTickets.java
 
 
@@ -154,7 +155,7 @@ public class MovieTickets {
         // Fill in the code to calculate the total price based on screen number and number of tickets
         double ticketPrice = 0.0;
         double convenienceCharge = 0.0;
-        
+
         // Determine ticket price based on screen number
         switch (screenNumber) {
             case "S1":
@@ -177,13 +178,13 @@ public class MovieTickets {
                 ticketPrice = 180.0;
                 break;
             default:
-                break;
+                return -1.0; // Invalid screen number
         }
-        
-        if (ticketPrice == 0.0) {
-            return -1.0; // Invalid screen number
+
+        if (noOfTickets <= 0) {
+            return -1.0; // Invalid number of tickets
         }
-        
+
         double totalPrice = noOfTickets * ticketPrice + convenienceCharge;
         return totalPrice;
     }
